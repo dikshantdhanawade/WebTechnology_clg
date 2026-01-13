@@ -1,0 +1,32 @@
+Date:13-1
+
+WEB TECHNOLOGY :Web technology is a collection of tools and technologies used to develop and manage websites and web applications over the internet.
+
+Roadmap:Frondend
+
+            HTML CSS                           Backend
+
+                                                      .net
+
+            JS 
+                                                         Express
+           
+            DOM
+                                      API                 Mango
+
+            React/Angular
+     
+ 
+ 
+  javascript: JavaScript (JS) is a programming language used to make web pages interactive and dynamic.
+
+Q.What is node.js and javascript
+-It is used for run js outside the browser.
+
+Data type: 1.primitive=num,string.begin,boolen,symbol,null,undefine,
+           2.non=object
+
+create file:
+1.const a=10;
+        a=20;
+  console.log(a);
