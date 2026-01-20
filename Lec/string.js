@@ -11,3 +11,4 @@ console.log(gamecount.length)
 console.log(gamecount.toLowerCase)
 console.log(gamecount.charAt())
 console.log(gamecount.indexOf('i'))
+//Activity 2:browser check 
