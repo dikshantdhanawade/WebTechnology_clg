@@ -33,7 +33,7 @@ console.log(x);//15
 document.write(b+"<br>")
 console.log(b);//20
 
-//Activity 3:
+//Activity 3:Student Info
 
 const firstname="Dikshant"
 const lastname="Dhanawade"
@@ -62,7 +62,7 @@ else
 const mark=70;
 if(mark>35){
     document.write("Student Pass:<br>")
-    console.log("Student Pass:")
+    console.log("Student Pass")
 }
 else{
     document.write("Student is fail<br>")

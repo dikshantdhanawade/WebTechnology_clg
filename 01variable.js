@@ -2,7 +2,7 @@
 //       a=20;
 // console.log(a);      
 
-//var
+// var
 // var a=10;
 // let ab=20;
 // console.log(a);
