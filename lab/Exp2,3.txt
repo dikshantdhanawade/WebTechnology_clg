@@ -1,0 +1,23 @@
+Activity 1:declare array string fun obj
+         2:count ovel in string 
+         3:reverse string
+4:find largest element in array
+5:find missing element in array
+6:check palindrome in string 
+7:write a code for febonaccie
+8:remove duplicate number in array
+
+fun
+1:even or odd
+2:write a code for sum of array
+
+
+Exp3:
+
+A1:write code for arrow fun with two ex 
+A2:wrie code for switch case
+3:how to use truthy and false value in js ex
+4:how to use terneray operater
+5:write a code for how to use loop while,
+6:diff betn for in and for off
+7:understand filter and math fun in js with 2 ex
