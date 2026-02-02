@@ -58,6 +58,20 @@ let largest = Math.max(...arr);
 console.log(largest); 
 
 //Activity 5:find missing element in array
+function findMissing(arr, n) {
+    let expectedSum = (n * (n + 1)) / 2;
+    let actualSum = 0;
+
+    for (let i = 0; i < arr.length; i++) {
+        actualSum += arr[i];
+    }
+
+    return expectedSum - actualSum;
+}
+
+let arr1 = [1, 2, 4, 5];
+console.log(findMissing(arr1, 5)); 
+
 
 
 
