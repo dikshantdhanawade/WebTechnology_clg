@@ -72,6 +72,18 @@ function findMissing(arr, n) {
 let arr1 = [1, 2, 4, 5];
 console.log(findMissing(arr1, 5)); 
 
+//Activity 6:check palindrome in string 
+function isPalindrome(str) {
+    let reversed = str.split('').reverse().join('');
+    return str === reversed;
+}
+
+
+console.log(isPalindrome("madam")); 
+console.log(isPalindrome("hello")); 
+
+
+
 
 
 
