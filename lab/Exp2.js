@@ -82,10 +82,3 @@ function isPalindrome(str) {
 console.log(isPalindrome("madam")); 
 console.log(isPalindrome("hello")); 
 
-
-
-
-
-
-
-
