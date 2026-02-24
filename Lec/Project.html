@@ -1,46 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Basic JS Example</title>
+    <title>Color Changer</title>
 
     <style>
         body {
             text-align: center;
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
             margin-top: 100px;
-        }
-
-        h1 {
-            color: darkblue;
+            font-family: Arial;
+            transition: background-color 0.5s;
         }
 
         button {
             padding: 10px 20px;
-            font-size: 16px;
-            background-color: blue;
-            color: white;
-            border: none;
-            border-radius: 5px;
+            font-size: 18px;
+            margin: 10px;
             cursor: pointer;
-        }
-
-        button:hover {
-            background-color: darkblue;
         }
     </style>
 </head>
 
 <body>
 
-    <h1 id="text">Hello World</h1>
+    <h2>Background Color Changer</h2>
 
-    <button onclick="changeText()">Click Me</button>
+    <button onclick="changeColor()">Change Color</button>
 
     <script>
-        function changeText() {
-            document.getElementById("text").innerHTML = "Button Clicked!";
-            document.body.style.backgroundColor = "lightyellow";
+        function changeColor() {
+
+            let colors = ["red", "blue", "green", "yellow", "orange", "purple"];
+
+            let randomIndex = Math.floor(Math.random() * colors.length);
+
+            document.body.style.backgroundColor = colors[randomIndex];
         }
     </script>
 
