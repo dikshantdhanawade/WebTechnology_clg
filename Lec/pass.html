@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Password Generator</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #4e73df, #1cc88a);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container{
+            background: white;
+            width: 350px;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        input[type="number"]{
+            width: 60px;
+            padding: 5px;
+        }
+
+        .options{
+            text-align: left;
+            margin: 10px 0;
+        }
+
+        button{
+            padding: 8px 12px;
+            margin-top: 10px;
+            cursor: pointer;
+            border: none;
+            background: #4e73df;
+            color: white;
+        }
+
+        button:hover{
+            background: #2e59d9;
+        }
+
+        #result{
+            margin-top: 10px;
+            font-weight: bold;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Password Generator</h2>
+
+    <label>Password Length:</label>
+    <input type="number" id="length" value="8" min="4" max="20">
+
+    <div class="options">
+        <input type="checkbox" id="uppercase" checked> Uppercase<br>
+        <input type="checkbox" id="lowercase" checked> Lowercase<br>
+        <input type="checkbox" id="numbers" checked> Numbers<br>
+        <input type="checkbox" id="symbols"> Symbols
+    </div>
+
+    <button id="generate">Generate Password</button>
+    <button id="copy">Copy</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+    const lengthInput = document.getElementById("length");
+    const uppercase = document.getElementById("uppercase");
+    const lowercase = document.getElementById("lowercase");
+    const numbers = document.getElementById("numbers");
+    const symbols = document.getElementById("symbols");
+    const generateBtn = document.getElementById("generate");
+    const copyBtn = document.getElementById("copy");
+    const result = document.getElementById("result");
+
+    const upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const lowerChars = "abcdefghijklmnopqrstuvwxyz";
+    const numberChars = "0123456789";
+    const symbolChars = "!@#$%^&*()_+";
+
+    generateBtn.addEventListener("click", function(){
+
+        let characters = "";
+
+        if(uppercase.checked) characters += upperChars;
+        if(lowercase.checked) characters += lowerChars;
+        if(numbers.checked) characters += numberChars;
+        if(symbols.checked) characters += symbolChars;
+
+        if(characters === ""){
+            result.textContent = "Select at least one option!";
+            result.style.color = "red";
+            return;
+        }
+
+        let password = "";
+        let length = lengthInput.value;
+
+        for(let i = 0; i < length; i++){
+            password += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+
+        result.textContent = password;
+        result.style.color = "green";
+    });
+
+    copyBtn.addEventListener("click", function(){
+        if(result.textContent === "") return;
+
+        navigator.clipboard.writeText(result.textContent);
+        alert("Password Copied!");
+    });
+</script>
+
+</body>
+</html>

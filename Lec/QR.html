@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR Code Generator</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container{
+            background: white;
+            padding: 25px;
+            width: 350px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        input{
+            width: 90%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        button{
+            padding: 8px 12px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            color: white;
+            background: #667eea;
+        }
+
+        button:hover{
+            background: #5a67d8;
+        }
+
+        #qrImage{
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>QR Code Generator</h2>
+
+    <input type="text" id="qrInput" placeholder="Enter text or URL">
+    <br>
+
+    <button id="generateBtn">Generate</button>
+    <button id="clearBtn">Clear</button>
+
+    <div id="qrImage"></div>
+</div>
+
+<script>
+    const input = document.getElementById("qrInput");
+    const generateBtn = document.getElementById("generateBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const qrImage = document.getElementById("qrImage");
+
+    // Generate QR Event
+    generateBtn.addEventListener("click", generateQR);
+
+    // Press Enter Event
+    input.addEventListener("keydown", function(event){
+        if(event.key === "Enter"){
+            generateQR();
+        }
+    });
+
+    // Clear Event
+    clearBtn.addEventListener("click", function(){
+        qrImage.innerHTML = "";
+        input.value = "";
+    });
+
+    function generateQR(){
+        const text = input.value.trim();
+
+        if(text === ""){
+            alert("Please enter some text!");
+            return;
+        }
+
+        const qrURL = 
+        "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" 
+        + encodeURIComponent(text);
+
+        qrImage.innerHTML = `<img src="${qrURL}" alt="QR Code">`;
+    }
+</script>
+
+</body>
+</html>
