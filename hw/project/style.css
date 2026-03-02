@@ -1,0 +1,61 @@
+body {
+    font-family: Arial;
+    text-align: center;
+    background: #f4f6f9;
+    padding-top: 30px;
+}
+
+.box {
+    background: white;
+    width: 400px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+input {
+    padding: 8px;
+    width: 80%;
+    margin: 10px 0;
+}
+
+button {
+    padding: 8px 15px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    background: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+#qrCode {
+    margin: 15px;
+    font-weight: bold;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    background: #e9ecef;
+    margin: 5px;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+.removeBtn {
+    background: red;
+    margin-left: 10px;
+}
+
+.removeBtn:hover {
+    background: darkred;
+}

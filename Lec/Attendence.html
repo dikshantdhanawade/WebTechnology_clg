@@ -55,6 +55,15 @@
             padding: 8px;
             border-radius: 5px;
         }
+
+        .removeBtn {
+            background: red;
+            margin-left: 10px;
+        }
+
+        .removeBtn:hover {
+            background: darkred;
+        }
     </style>
 </head>
 <body>
@@ -88,22 +97,20 @@ const attendanceList = document.getElementById("attendanceList");
 
 let currentQR = "";
 
-// Form Submit Event
+// Generate QR
 form.addEventListener("submit", function(e) {
     e.preventDefault();
 
     const name = nameInput.value.trim();
-
     if (name === "") return;
 
     currentQR = "QR-" + name + "-" + Date.now();
-
     qrCode.textContent = "Generated QR: " + currentQR;
 
     nameInput.value = "";
 });
 
-// Scan Button Click Event
+// Mark Attendance
 scanBtn.addEventListener("click", function() {
 
     if (currentQR === "") {
@@ -131,11 +138,30 @@ scanBtn.addEventListener("click", function() {
 function displayAttendance() {
     attendanceList.innerHTML = "";
 
-    attendance.forEach(record => {
+    attendance.forEach((record, index) => {
+
         const li = document.createElement("li");
         li.textContent = record.name + " - " + record.time;
+
+        // Remove Button
+        const removeBtn = document.createElement("button");
+        removeBtn.textContent = "Remove";
+        removeBtn.classList.add("removeBtn");
+
+        removeBtn.addEventListener("click", function() {
+            removeAttendance(index);
+        });
+
+        li.appendChild(removeBtn);
         attendanceList.appendChild(li);
     });
+}
+
+// Remove Attendance
+function removeAttendance(index) {
+    attendance.splice(index, 1);
+    localStorage.setItem("attendance", JSON.stringify(attendance));
+    displayAttendance();
 }
 
 displayAttendance();
