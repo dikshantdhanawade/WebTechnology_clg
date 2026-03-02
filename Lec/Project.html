@@ -1,169 +1,243 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Shopping Cart </title>
+    <title>Advanced Shopping Cart</title>
     <style>
-        body{
-            font-family: Arial, sans-serif;
-            background: #f2f2f2;
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
             text-align: center;
-            padding: 30px;
         }
 
-        .container{
-            width: 700px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
+        h1 { margin-top: 20px; }
 
-        .products{
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 20px;
-        }
-
-        .product{
-            border: 1px solid #ddd;
-            padding: 10px;
-            width: 150px;
+        input {
+            padding: 8px;
+            width: 250px;
+            margin: 20px;
             border-radius: 5px;
+            border: 1px solid gray;
         }
 
-        button{
-            padding: 6px 10px;
+        .products {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .product {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            width: 160px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        button {
+            padding: 5px 10px;
+            margin: 3px;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
             background: #007bff;
             color: white;
-            border: none;
-            margin-top: 5px;
         }
 
-        button:hover{
-            background: #0056b3;
+        button:hover { background: #0056b3; }
+
+        .cart-item {
+            background: rgb(223, 214, 214);
+            margin: 10px auto;
+            padding: 10px;
+            width: 400px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        table{
+        #cart { list-style: none; padding: 0; }
+
+        .empty { color: gray; }
+
+        /* Popup */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
             width: 100%;
-            border-collapse: collapse;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
         }
 
-        th, td{
-            border: 1px solid #ddd;
-            padding: 8px;
+        .modal-content {
+            background: white;
+            padding: 20px;
+            width: 300px;
+            border-radius: 10px;
+            text-align: left;
         }
 
-        .remove-btn{
-            background: red;
-        }
-
-        .total{
-            margin-top: 15px;
-            font-weight: bold;
-            font-size: 18px;
+        .close {
+            float: right;
+            cursor: pointer;
+            color: red;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Shopping Cart </h2>
+<h1> Advanced Shopping Cart</h1>
 
-    <div class="products">
-        <div class="product">
-            <h4>BOOK 1</h4>
-            <p>₹500</p>
-            <button class="addBtn" data-name="Product 1" data-price="500">Add</button>
-        </div>
+<input type="text" id="search" placeholder="Search product...">
 
-        <div class="product">
-            <h4>BOOK 2</h4>
-            <p>₹800</p>
-            <button class="addBtn" data-name="Product 2" data-price="800">Add</button>
-        </div>
-
-        <div class="product">
-            <h4>BOOK 3</h4>
-            <p>₹1200</p>
-            <button class="addBtn" data-name="Product 3" data-price="1200">Add</button>
-        </div>
+<div class="products" id="productList">
+    <div class="product">
+        <h3>Laptop</h3>
+        <p>₹50000</p>
+        <button data-name="Laptop" data-price="50000">Add</button>
     </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Qty</th>
-                <th>Total</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody id="cartBody"></tbody>
-    </table>
+    <div class="product">
+        <h3>Mobile</h3>
+        <p>₹20000</p>
+        <button data-name="Mobile" data-price="20000">Add</button>
+    </div>
 
-    <div class="total">
-        Grand Total: ₹<span id="grandTotal">0</span>
+    <div class="product">
+        <h3>Headphones</h3>
+        <p>₹3000</p>
+        <button data-name="Headphones" data-price="3000">Add</button>
+    </div>
+</div>
+
+<h2>Cart</h2>
+<ul id="cart"></ul>
+
+<h3>Total: ₹<span id="total">0</span></h3>
+
+<button onclick="showBill()">Generate Bill</button>
+
+<!-- Bill Popup -->
+<div class="modal" id="billModal">
+    <div class="modal-content">
+        <span class="close" onclick="closeBill()">X</span>
+        <h3> Bill Receipt</h3>
+        <div id="billDetails"></div>
     </div>
 </div>
 
 <script>
-    const addButtons = document.querySelectorAll(".addBtn");
-    const cartBody = document.getElementById("cartBody");
-    const grandTotalElement = document.getElementById("grandTotal");
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    let cart = [];
+const cartList = document.getElementById("cart");
+const totalDisplay = document.getElementById("total");
+const searchInput = document.getElementById("search");
 
-    // Add Button Event
-    addButtons.forEach(button => {
-        button.addEventListener("click", function(){
-            const name = this.dataset.name;
-            const price = Number(this.dataset.price);
+// Add to cart
+document.getElementById("productList").addEventListener("click", function(e) {
+    if (e.target.tagName === "BUTTON") {
+        const name = e.target.dataset.name;
+        const price = parseInt(e.target.dataset.price);
 
-            let existing = cart.find(item => item.name === name);
+        const existing = cart.find(item => item.name === name);
 
-            if(existing){
-                existing.qty++;
-            } else {
-                cart.push({name: name, price: price, qty: 1});
-            }
+        if (existing) {
+            existing.quantity++;
+        } else {
+            cart.push({ name, price, quantity: 1 });
+        }
 
-            updateCart();
-        });
-    });
+        saveCart();
+        updateCart();
+    }
+});
 
-    function updateCart(){
-        cartBody.innerHTML = "";
-        let grandTotal = 0;
+// Update cart
+function updateCart() {
+    cartList.innerHTML = "";
+    let total = 0;
 
-        cart.forEach(item => {
-            const total = item.price * item.qty;
-            grandTotal += total;
-
-            const row = document.createElement("tr");
-
-            row.innerHTML = `
-                <td>${item.name}</td>
-                <td>₹${item.price}</td>
-                <td>${item.qty}</td>
-                <td>₹${total}</td>
-                <td><button class="remove-btn">Remove</button></td>
-            `;
-
-            // Remove Event
-            row.querySelector(".remove-btn").addEventListener("click", function(){
-                cart = cart.filter(p => p.name !== item.name);
-                updateCart();
-            });
-
-            cartBody.appendChild(row);
-        });
-
-        grandTotalElement.textContent = grandTotal;
+    if (cart.length === 0) {
+        cartList.innerHTML = "<p class='empty'>Cart is empty</p>";
     }
 
+    cart.forEach((item, index) => {
+        total += item.price * item.quantity;
+
+        const li = document.createElement("li");
+        li.className = "cart-item";
+
+        li.innerHTML = `
+            ${item.name} - ₹${item.price} x ${item.quantity}
+            <div>
+                <button onclick="changeQty(${index}, -1)">-</button>
+                <button onclick="changeQty(${index}, 1)">+</button>
+                <button onclick="removeItem(${index})">Remove</button>
+            </div>
+        `;
+
+        cartList.appendChild(li);
+    });
+
+    totalDisplay.textContent = total;
+}
+
+// Change quantity
+function changeQty(index, value) {
+    cart[index].quantity += value;
+    if (cart[index].quantity <= 0) cart.splice(index, 1);
+    saveCart();
+    updateCart();
+}
+
+// Remove item
+function removeItem(index) {
+    cart.splice(index, 1);
+    saveCart();
+    updateCart();
+}
+
+// Save to localStorage
+function saveCart() {
+    localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+// Search product
+searchInput.addEventListener("keyup", function() {
+    const filter = this.value.toLowerCase();
+    const products = document.querySelectorAll(".product");
+
+    products.forEach(product => {
+        const name = product.querySelector("h3").innerText.toLowerCase();
+        product.style.display = name.includes(filter) ? "block" : "none";
+    });
+});
+
+// Generate Bill
+function showBill() {
+    let billHTML = "";
+    let total = 0;
+
+    cart.forEach(item => {
+        total += item.price * item.quantity;
+        billHTML += `<p>${item.name} x ${item.quantity} = ₹${item.price * item.quantity}</p>`;
+    });
+
+    billHTML += `<hr><h4>Total: ₹${total}</h4>`;
+    document.getElementById("billDetails").innerHTML = billHTML;
+    document.getElementById("billModal").style.display = "flex";
+}
+
+// Close Bill
+function closeBill() {
+    document.getElementById("billModal").style.display = "none";
+}
+
+updateCart();
 </script>
 
 </body>

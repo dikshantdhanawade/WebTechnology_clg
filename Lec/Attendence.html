@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Attendance System</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: #f4f6f9;
+            padding-top: 30px;
+        }
+
+        .box {
+            background: white;
+            width: 400px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        input {
+            padding: 8px;
+            width: 80%;
+            margin: 10px 0;
+        }
+
+        button {
+            padding: 8px 15px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        #qrCode {
+            margin: 15px;
+            font-weight: bold;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background: #e9ecef;
+            margin: 5px;
+            padding: 8px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>📚 Smart Attendance System</h2>
+
+    <form id="attendanceForm">
+        <input type="text" id="studentName" placeholder="Enter Student Name" required>
+        <br>
+        <button type="submit">Generate QR</button>
+    </form>
+
+    <div id="qrCode"></div>
+
+    <button id="scanBtn">Scan QR & Mark Attendance</button>
+
+    <h3>Attendance List</h3>
+    <ul id="attendanceList"></ul>
+</div>
+
+<script>
+
+let attendance = JSON.parse(localStorage.getItem("attendance")) || [];
+
+const form = document.getElementById("attendanceForm");
+const nameInput = document.getElementById("studentName");
+const qrCode = document.getElementById("qrCode");
+const scanBtn = document.getElementById("scanBtn");
+const attendanceList = document.getElementById("attendanceList");
+
+let currentQR = "";
+
+// Form Submit Event
+form.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const name = nameInput.value.trim();
+
+    if (name === "") return;
+
+    currentQR = "QR-" + name + "-" + Date.now();
+
+    qrCode.textContent = "Generated QR: " + currentQR;
+
+    nameInput.value = "";
+});
+
+// Scan Button Click Event
+scanBtn.addEventListener("click", function() {
+
+    if (currentQR === "") {
+        alert("Generate QR first!");
+        return;
+    }
+
+    const studentName = currentQR.split("-")[1];
+    const time = new Date().toLocaleString();
+
+    attendance.push({
+        name: studentName,
+        time: time
+    });
+
+    localStorage.setItem("attendance", JSON.stringify(attendance));
+
+    displayAttendance();
+
+    qrCode.textContent = "Attendance Marked ✅";
+    currentQR = "";
+});
+
+// Display Attendance
+function displayAttendance() {
+    attendanceList.innerHTML = "";
+
+    attendance.forEach(record => {
+        const li = document.createElement("li");
+        li.textContent = record.name + " - " + record.time;
+        attendanceList.appendChild(li);
+    });
+}
+
+displayAttendance();
+
+</script>
+
+</body>
+</html>

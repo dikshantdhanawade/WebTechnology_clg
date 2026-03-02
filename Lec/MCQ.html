@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Advanced Quiz App</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+            text-align: center;
+            padding-top: 40px;
+        }
+
+        .quiz-box {
+            background: white;
+            width: 420px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        button {
+            padding: 8px 15px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover { background: #0056b3; }
+
+        .option-btn {
+            display: block;
+            width: 100%;
+            margin: 8px 0;
+            background: #eee;
+            color: black;
+        }
+
+        .timer {
+            font-weight: bold;
+            color: red;
+        }
+
+        .highscore {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-box">
+    <h2>Advanced Quiz App</h2>
+    <p class="timer">Time Left: <span id="time">30</span>s</p>
+    <p class="highscore">High Score: <span id="highScore">0</span></p>
+
+    <h3 id="question"></h3>
+    <div id="options"></div>
+
+    <button id="nextBtn">Next</button>
+    <button id="restartBtn" style="display:none;">Restart</button>
+
+    <h3 id="result"></h3>
+</div>
+
+<script>
+
+const questions = [
+    {
+        question: "Which language runs in browser?",
+        options: ["Java", "C", "Python", "JavaScript"],
+        answer: "JavaScript"
+    },
+    {
+        question: "What does DOM stand for?",
+        options: ["Document Object Model", "Data Object Model", "Digital Order Model", "Desktop Mode"],
+        answer: "Document Object Model"
+    },
+    {
+        question: "Which symbol is used for comments in JS?",
+        options: ["//", "##", "<!-- -->", "**"],
+        answer: "//"
+    }
+];
+
+let currentQuestion = 0;
+let score = 0;
+let timeLeft = 30;
+let timer;
+
+const questionEl = document.getElementById("question");
+const optionsEl = document.getElementById("options");
+const resultEl = document.getElementById("result");
+const timeEl = document.getElementById("time");
+const nextBtn = document.getElementById("nextBtn");
+const restartBtn = document.getElementById("restartBtn");
+const highScoreEl = document.getElementById("highScore");
+
+// Load high score from localStorage
+let highScore = localStorage.getItem("highScore") || 0;
+highScoreEl.textContent = highScore;
+
+function loadQuestion() {
+    clearInterval(timer);
+    timeLeft = 30;
+    timeEl.textContent = timeLeft;
+
+    const q = questions[currentQuestion];
+    questionEl.textContent = q.question;
+    optionsEl.innerHTML = "";
+
+    q.options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.textContent = option;
+        btn.classList.add("option-btn");
+
+        btn.addEventListener("click", function() {
+            if (option === q.answer) {
+                score++;
+            } else {
+                score -= 0.5; // Negative marking
+            }
+            nextQuestion();
+        });
+
+        optionsEl.appendChild(btn);
+    });
+
+    startTimer();
+}
+
+function startTimer() {
+    timer = setInterval(function() {
+        timeLeft--;
+        timeEl.textContent = timeLeft;
+
+        if (timeLeft === 0) {
+            nextQuestion();
+        }
+    }, 1000);
+}
+
+function nextQuestion() {
+    clearInterval(timer);
+    currentQuestion++;
+
+    if (currentQuestion < questions.length) {
+        loadQuestion();
+    } else {
+        showResult();
+    }
+}
+
+nextBtn.addEventListener("click", nextQuestion);
+
+function showResult() {
+    questionEl.textContent = "Quiz Completed!";
+    optionsEl.innerHTML = "";
+    nextBtn.style.display = "none";
+    restartBtn.style.display = "inline-block";
+
+    resultEl.textContent = "Your Score: " + score.toFixed(1);
+
+    // Update High Score
+    if (score > highScore) {
+        highScore = score;
+        localStorage.setItem("highScore", highScore);
+        highScoreEl.textContent = highScore;
+    }
+}
+
+restartBtn.addEventListener("click", function() {
+    currentQuestion = 0;
+    score = 0;
+    nextBtn.style.display = "inline-block";
+    restartBtn.style.display = "none";
+    resultEl.textContent = "";
+    loadQuestion();
+});
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>

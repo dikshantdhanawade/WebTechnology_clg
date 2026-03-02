@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Background Color Changer</title>
+    <style>
+        body{
+            text-align:center;
+            font-family: Arial, sans-serif;
+            transition: background 0.5s ease;
+            margin-top:100px;
+        }
+
+        h1{
+            margin-bottom:30px;
+        }
+
+        button{
+            padding:10px 20px;
+            margin:10px;
+            border:none;
+            border-radius:5px;
+            font-size:16px;
+            cursor:pointer;
+            color:white;
+        }
+
+        .red{ background:red; }
+        .pink{ background:rgb(240, 60, 111); }
+        .yellow{ background:rgb(222, 249, 45); }
+        .orange{ background:orange; }
+        .reset{ background:black; }
+
+        button:hover{
+            opacity:0.8;
+        }
+    </style>
+</head>
+<body>
+
+    <h1> Background Color Changer</h1>
+
+    <button class="red" onclick="changeColor('red')">Red</button>
+    <button class="pink" onclick="changeColor('pink')">pink</button>
+    <button class="yellow" onclick="changeColor('yellow')">yellow</button>
+    <button class="orange" onclick="changeColor('orange')">orange</button>
+    <button class="reset" onclick="changeColor('white')">Reset</button>
+
+    <script>
+        function changeColor(color){
+            document.body.style.backgroundColor = color;
+        }
+    </script>
+
+</body>
+</html>
