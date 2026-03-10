@@ -4,7 +4,7 @@ const cartList = document.getElementById("cart");
 const totalDisplay = document.getElementById("total");
 const searchInput = document.getElementById("search");
 
-// Add to cart
+
 document.getElementById("productList").addEventListener("click", function(e) {
     if (e.target.tagName === "BUTTON") {
         const name = e.target.dataset.name;
@@ -23,7 +23,6 @@ document.getElementById("productList").addEventListener("click", function(e) {
     }
 });
 
-// Update cart
 function updateCart() {
     cartList.innerHTML = "";
     let total = 0;
@@ -53,7 +52,7 @@ function updateCart() {
     totalDisplay.textContent = total;
 }
 
-// Change quantity
+
 function changeQty(index, value) {
     cart[index].quantity += value;
     if (cart[index].quantity <= 0) cart.splice(index, 1);
@@ -61,19 +60,19 @@ function changeQty(index, value) {
     updateCart();
 }
 
-// Remove item
+
 function removeItem(index) {
     cart.splice(index, 1);
     saveCart();
     updateCart();
 }
 
-// Save to localStorage
+
 function saveCart() {
     localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-// Search product
+
 searchInput.addEventListener("keyup", function() {
     const filter = this.value.toLowerCase();
     const products = document.querySelectorAll(".product");
@@ -84,7 +83,7 @@ searchInput.addEventListener("keyup", function() {
     });
 });
 
-// Generate Bill
+
 function showBill() {
     let billHTML = "";
     let total = 0;
@@ -99,7 +98,7 @@ function showBill() {
     document.getElementById("billModal").style.display = "flex";
 }
 
-// Close Bill
+
 function closeBill() {
     document.getElementById("billModal").style.display = "none";
 }

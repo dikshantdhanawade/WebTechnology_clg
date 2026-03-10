@@ -1,124 +1,169 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Password Generator</title>
+    <title>Student Result Management System</title>
     <style>
         body{
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #4e73df, #1cc88a);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            background:#f4f6f9;
+            text-align:center;
         }
 
-        .container{
-            background: white;
-            width: 350px;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        h1{
+            margin-top:20px;
         }
 
-        input[type="number"]{
-            width: 60px;
-            padding: 5px;
+        form{
+            background:white;
+            padding:20px;
+            width:350px;
+            margin:20px auto;
+            border-radius:10px;
+            box-shadow:0 0 10px rgba(0,0,0,0.1);
         }
 
-        .options{
-            text-align: left;
-            margin: 10px 0;
+        input{
+            width:90%;
+            padding:8px;
+            margin:8px 0;
+            border-radius:5px;
+            border:1px solid #ccc;
         }
 
         button{
-            padding: 8px 12px;
-            margin-top: 10px;
-            cursor: pointer;
-            border: none;
-            background: #4e73df;
-            color: white;
+            padding:10px 20px;
+            background:#007bff;
+            color:white;
+            border:none;
+            border-radius:5px;
+            cursor:pointer;
         }
 
         button:hover{
-            background: #2e59d9;
+            background:#0056b3;
         }
 
-        #result{
-            margin-top: 10px;
-            font-weight: bold;
-            word-wrap: break-word;
+        table{
+            margin:20px auto;
+            border-collapse: collapse;
+            width:80%;
+            background:white;
+        }
+
+        th, td{
+            padding:10px;
+            border:1px solid #ccc;
+        }
+
+        th{
+            background:#007bff;
+            color:white;
+        }
+
+        .pass{
+            color:green;
+            font-weight:bold;
+        }
+
+        .fail{
+            color:red;
+            font-weight:bold;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Password Generator</h2>
+<h1>Student Result Management System</h1>
 
-    <label>Password Length:</label>
-    <input type="number" id="length" value="8" min="4" max="20">
+<form id="resultForm">
+    <input type="text" id="name" placeholder="Enter Student Name" required><br>
+    <input type="number" id="sub1" placeholder="Subject 1 Marks" required><br>
+    <input type="number" id="sub2" placeholder="Subject 2 Marks" required><br>
+    <input type="number" id="sub3" placeholder="Subject 3 Marks" required><br>
+    <p><b>Total:</b> <span id="total">0</span></p>
+    <p><b>Percentage:</b> <span id="percentage">0%</span></p>
+    <button type="submit">Generate Result</button>
+</form>
 
-    <div class="options">
-        <input type="checkbox" id="uppercase" checked> Uppercase<br>
-        <input type="checkbox" id="lowercase" checked> Lowercase<br>
-        <input type="checkbox" id="numbers" checked> Numbers<br>
-        <input type="checkbox" id="symbols"> Symbols
-    </div>
-
-    <button id="generate">Generate Password</button>
-    <button id="copy">Copy</button>
-
-    <div id="result"></div>
-</div>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Total</th>
+            <th>Percentage</th>
+            <th>Grade</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody id="resultTable">
+    </tbody>
+</table>
 
 <script>
-    const lengthInput = document.getElementById("length");
-    const uppercase = document.getElementById("uppercase");
-    const lowercase = document.getElementById("lowercase");
-    const numbers = document.getElementById("numbers");
-    const symbols = document.getElementById("symbols");
-    const generateBtn = document.getElementById("generate");
-    const copyBtn = document.getElementById("copy");
-    const result = document.getElementById("result");
 
-    const upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const lowerChars = "abcdefghijklmnopqrstuvwxyz";
-    const numberChars = "0123456789";
-    const symbolChars = "!@#$%^&*()_+";
+let sub1 = document.getElementById("sub1");
+let sub2 = document.getElementById("sub2");
+let sub3 = document.getElementById("sub3");
 
-    generateBtn.addEventListener("click", function(){
+function calculate() {
 
-        let characters = "";
+    let m1 = Number(sub1.value) || 0;
+    let m2 = Number(sub2.value) || 0;
+    let m3 = Number(sub3.value) || 0;
 
-        if(uppercase.checked) characters += upperChars;
-        if(lowercase.checked) characters += lowerChars;
-        if(numbers.checked) characters += numberChars;
-        if(symbols.checked) characters += symbolChars;
+    let total = m1 + m2 + m3;
+    let percentage = (total / 300) * 100;
 
-        if(characters === ""){
-            result.textContent = "Select at least one option!";
-            result.style.color = "red";
-            return;
-        }
+    document.getElementById("total").textContent = total;
+    document.getElementById("percentage").textContent = percentage.toFixed(2) + "%";
+}
 
-        let password = "";
-        let length = lengthInput.value;
+sub1.addEventListener("input", calculate);
+sub2.addEventListener("input", calculate);
+sub3.addEventListener("input", calculate);
 
-        for(let i = 0; i < length; i++){
-            password += characters.charAt(Math.floor(Math.random() * characters.length));
-        }
+document.getElementById("resultForm").addEventListener("submit", function(e){
 
-        result.textContent = password;
-        result.style.color = "green";
-    });
+    e.preventDefault();
 
-    copyBtn.addEventListener("click", function(){
-        if(result.textContent === "") return;
+    let name = document.getElementById("name").value;
+    let total = Number(document.getElementById("total").textContent);
+    let percentage = parseFloat(document.getElementById("percentage").textContent);
 
-        navigator.clipboard.writeText(result.textContent);
-        alert("Password Copied!");
-    });
+    let grade = "";
+    let status = "";
+
+    if(percentage >= 80){
+        grade = "A";
+    } else if(percentage >= 60){
+        grade = "B";
+    } else if(percentage >= 40){
+        grade = "C";
+    } else {
+        grade = "F";
+    }
+
+    status = (percentage >= 40) ? "Pass" : "Fail";
+
+    let table = document.getElementById("resultTable");
+
+    let row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td>${name}</td>
+        <td>${total}</td>
+        <td>${percentage.toFixed(2)}%</td>
+        <td>${grade}</td>
+        <td class="${status === 'Pass' ? 'pass' : 'fail'}">${status}</td>
+    `;
+
+    table.appendChild(row);
+
+    document.getElementById("resultForm").reset();
+    document.getElementById("total").textContent = "0";
+    document.getElementById("percentage").textContent = "0%";
+});
+
 </script>
 
 </body>
