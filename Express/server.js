@@ -14,7 +14,6 @@ app.get('/', (req, res) => {
     res.send("Welcome to my first Express Server!");
 });
 
-// Route 2
 app.get('/about', (req, res) => {
     res.send("This is About Page");
 });
