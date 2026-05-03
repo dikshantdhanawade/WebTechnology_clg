@@ -1,0 +1,11 @@
+// it allow developer to generate dynamic html page using data from the server 
+// insted of static html page are created dynamically
+// popular templete-EJS,pug,handlebars
+// Q.why templeteengine are use?
+// they help in dynamicengine ,code reusabiity,seprate contetfrom html
+
+npm install EJS
+
+Activity1:Ejs exp
+Activity2:static file ,express router,complete express flow 
+ 

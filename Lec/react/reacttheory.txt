@@ -1,0 +1,30 @@
+react is javascript library develop by meta.to build fast user intracting user intrfaces,so by using js
+it is single page aplication page does not ,eg.facebook,instagram
+why do we use react ,full page reload,complex manipulation hard to manage large aplicatiion.update only requried part
+what is VITE=
+fast build tool npm install means install dependency 
+npm run name = start server 
+jsx means javascript + html. it allows to write html code inside the js.
+
+Rules of jsx=1.must return single parent 
+             2.use '{}' for js.
+
+compont is heart of react=
+there is one component functional component
+ex. function student(){
+    return <h1> this is function</h1>
+}
+ use component=
+ function app (){
+    return <> <student/>
+ }
+
+ props= it means data pass from parent to child
+
+ function app(){
+    return <student name="ABC"/>
+    {function student (props)
+    {return h2<name;{props.name}/>}
+    }
+ }
+        

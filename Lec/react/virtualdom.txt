@@ -1,0 +1,9 @@
+real dom create copy mean virtual dom.when data changes react update virtual dom
+update inly change the part ,use-high performance
+
+Activity:what is diff bet
+market hype?
+why react created?
+what is components types of components.
+when we use componet in react with 2 example.
+what is prop?why we use props? & types of props with 2 example.

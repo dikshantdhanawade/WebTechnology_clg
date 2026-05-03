@@ -1,0 +1,14 @@
+// the response object seens datapack
+
+// method:
+// 1.response.send-send text
+// 2.response.json-
+// 3.response.sendfile-
+//4.
+
+app.get('/',(req,res)=>{
+    const T=new Date();
+    res.json({mess:"Hello",
+        time:T
+    })
+});
