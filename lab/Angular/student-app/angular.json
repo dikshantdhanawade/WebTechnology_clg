@@ -3,11 +3,11 @@
   "version": 1,
   "cli": {
     "packageManager": "npm",
-    "analytics": "91f12ff9-661f-44fa-b1f1-e44f7a2a90b7"
+    "analytics": "876e8bba-6b8c-4d32-a275-e1db13d1e9a4"
   },
   "newProjectRoot": "projects",
   "projects": {
-    "my-app": {
+    "student-app": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -65,10 +65,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "my-app:build:production"
+              "buildTarget": "student-app:build:production"
             },
             "development": {
-              "buildTarget": "my-app:build:development"
+              "buildTarget": "student-app:build:development"
             }
           },
           "defaultConfiguration": "development"
